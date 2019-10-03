@@ -3,6 +3,11 @@ var mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
     devtool: mode === 'development' ? 'inline-source-map' : false,
+    performance: mode === 'production' && {
+        hints: false,
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000
+    },
     mode: mode,
     module: {
         rules: [
