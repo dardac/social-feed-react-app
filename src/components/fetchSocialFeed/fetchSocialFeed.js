@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-let maxUpdates = 10;
+let maxUpdates = 2;
 
 export default function fetchSocialFeed(feedURL, postsToDisplay, updateInterval, WrappedComponent) {
     return class extends Component {
@@ -19,15 +19,17 @@ export default function fetchSocialFeed(feedURL, postsToDisplay, updateInterval,
             if (updateInterval < 5000) maxUpdates = 1;
 
             this.interval = setInterval(() => {
-                fetch(feedURL)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (this._isMounted && this.state.count <= maxUpdates) {
-                            this.setState({ data: data.slice(0, postsToDisplay) });
-                            this.setState({ count: this.state.count + 1 });                            
-                        }
-                    })
-                    .catch(err => console.log(err.message))
+                if (this.state.count <= maxUpdates) {
+                        fetch(feedURL)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (this._isMounted) {
+                                this.setState({ data: data.slice(0, postsToDisplay) });
+                                this.setState({ count: this.state.count + 1 });                            
+                            }
+                        })
+                        .catch(err => console.log(err.message));
+                    }
             }, updateInterval);
         }
 
