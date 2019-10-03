@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-let maxUpdates = 2;
+let maxUpdates = 10;
 
 export default function fetchSocialFeed(feedURL, postsToDisplay, updateInterval, WrappedComponent) {
     return class extends Component {
